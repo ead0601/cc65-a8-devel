@@ -11,6 +11,8 @@
 CWD = $(shell pwd)
 
 RM = /usr/bin/rm
+MD = /usr/bin/mkdir
+
 CC = $(CC65_HOME)/bin/cc65
 CA = $(CC65_HOME)/bin/ca65
 LD = $(CC65_HOME)/bin/ld65
@@ -25,15 +27,24 @@ S_SRC = $(shell ls src/*.s 2>/dev/null)
 C_OBJS  = $(addprefix obj/, $(notdir $(C_SRC:.c=.o)))
 S_OBJS  = $(addprefix obj/, $(notdir $(S_SRC:.s=.o)))
 
+OBJDIR  = ./obj
+
+
+# Make obj directory
+#
+$(OBJDIR):
+	mkdir $@ 2>/dev/null || true
+
+
 # Build Target
 #
 TARGET = main.c
 
-build : $(C_OBJS) $(S_OBJS)
+build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
 	$(LD) -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
 run :
-	$(A8_EMULATOR) -run obj/main.xex
+	$(EMU) -run obj/main.xex
 
 all : clean build run
 
@@ -57,7 +68,7 @@ obj/%.o : obj/%.s
 
 # Clean
 #
-clean :
+clean : $(OBJDIR)
 	$(RM) -f obj/*.*
 
 
