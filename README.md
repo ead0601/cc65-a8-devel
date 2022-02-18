@@ -6,19 +6,17 @@ Please see https://cc65.github.io/doc/intro.html for more details on atari.cfg a
 
 Directory structure:
 
-...\[repo dir\]
-       \[tools dir\]
-       \[cc65-a8-devel\]
-              \[hello-world\]
-	           make clean
-		   make build
-		   make run
-		   make all
-	      \[software-automated-mouth\]
-	      \[civone\]
-	        .
-	        .
-       \[other-repos\]
+...[repo dir] 
+&emsp;&emsp; [tools dir] 
+&emsp;&emsp; [cc65-a8-devel]
+&emsp;&emsp;&emsp;&emsp;[hello-world]
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;make clean 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;make build
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;make run 
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;make all 
+&emsp;&emsp;&emsp;[software-automated-mouth] 
+&emsp;&emsp;&emsp;[civone] . . 
+&emsp;&emsp;&emsp;[other-repos]
 
 The goal is to have serveral projects that can be built,and possibly with a library of optimized atari 8bit libraries that can be reused.
 
