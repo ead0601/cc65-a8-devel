@@ -15,9 +15,9 @@ Directory structure:
 ................make build<br />
 ................make run<br />
 ................make all<br />
-.......[software-automated-mouth]<br />
-.......[civone] . . <br />
-.......[other-repos]<br />
+............[software-automated-mouth]<br />
+............[civone] . . <br />
+............[other-repos]<br />
 <br />
 
 The goal is to have serveral projects that can be built,and possibly with a library of optimized atari 8bit libraries that can be reused.
