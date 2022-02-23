@@ -12,6 +12,8 @@
 #include <SDL_audio.h>
 #endif
 
+void WriteWav(char* filename, char* buffer, int bufferlength) {}
+/*
 void WriteWav(char* filename, char* buffer, int bufferlength)
 {
     FILE *file = fopen(filename, "wb");
@@ -45,6 +47,7 @@ void WriteWav(char* filename, char* buffer, int bufferlength)
 
     fclose(file);
 }
+*/
 
 void PrintUsage()
 {
@@ -92,6 +95,10 @@ void PrintUsage()
     printf("Q            kitt-en (glottal stop)    /H        a(h)ead    \n");
 }
 
+
+void OutputSound() {}
+
+/*
 #ifdef USESDL
 
 int pos = 0;
@@ -109,7 +116,6 @@ void MixAudio(void *unused, Uint8 *stream, int len)
     }
 }
 
-
 void OutputSound()
 {
     int bufferpos = GetBufferLength();
@@ -123,7 +129,7 @@ void OutputSound()
     fmt.callback = MixAudio;
     fmt.userdata = NULL;
 
-    /* Open the audio device and start playing sound! */
+    // Open the audio device and start playing sound! 
     if ( SDL_OpenAudio(&fmt, NULL) < 0 )
     {
         printf("Unable to open audio: %s\n", SDL_GetError());
@@ -145,16 +151,17 @@ void OutputSound()
 void OutputSound() {}
 
 #endif
+*/
 
 int debug = 0;
 
 int main(int argc, char **argv)
 {
-    int i;
-    int phonetic = 0;
+    static int i;
+    static int phonetic = 0;
 
-    char* wavfilename = NULL;
-    char input[256];
+    static char* wavfilename = NULL;
+    static char input[256];
 
     for(i=0; i<256; i++) input[i] = 0;
 
@@ -236,6 +243,7 @@ int main(int argc, char **argv)
             printf("phonetic input: %s\n", input);
     } else strncat(input, "\x9b", 256);
 
+/*
 #ifdef USESDL
     if ( SDL_Init(SDL_INIT_AUDIO) < 0 )
     {
@@ -244,6 +252,7 @@ int main(int argc, char **argv)
     }
     atexit(SDL_Quit);
 #endif
+*/
 
     SetInput(input);
     if (!SAMMain())

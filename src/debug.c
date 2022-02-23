@@ -43,9 +43,11 @@ void PrintOutput(
     unsigned char *a3,
     unsigned char *p)
 {
+    int i;
+
     printf("===========================================\n");
     printf("Final data for speech output:\n\n");
-    int i = 0;
+    i = 0;
     printf(" flags ampl1 freq1 ampl2 freq2 ampl3 freq3 pitch\n");
     printf("------------------------------------------------\n");
     while(i < 255)

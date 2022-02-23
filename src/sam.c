@@ -177,6 +177,8 @@ int SAMMain()
 //void Code48547()
 void PrepareOutput()
 {
+    int temp;
+
     A = 0;
     X = 0;
     Y = 0;
@@ -195,7 +197,8 @@ void PrepareOutput()
         if (A == 254)
         {
             X++;
-            int temp = X;
+            //int temp = X;
+            temp = X;
             //mem[48546] = X;
             phonemeIndexOutput[Y] = 255;
             Render();
@@ -224,11 +227,14 @@ void InsertBreath()
 {
     unsigned char mem54;
     unsigned char mem55;
+    unsigned char mem66;
     unsigned char index; //variable Y
+
     mem54 = 255;
     X++;
     mem55 = 0;
-    unsigned char mem66 = 0;
+    //unsigned char mem66 = 0;
+    mem66 = 0;
     while(1)
     {
         //pos48440:
@@ -613,9 +619,15 @@ void Code41240()
 //void Code41397()
 void Parser2()
 {
+    unsigned char pos;   //mem66;
+    unsigned char mem58;
+
     if (debug) printf("Parser2\n");
-    unsigned char pos = 0; //mem66;
-    unsigned char mem58 = 0;
+
+    //unsigned char pos = 0; //mem66;
+    //unsigned char mem58 = 0;
+    pos = 0; //mem66;
+    mem58 = 0;
 
 
   // Loop through phonemes
@@ -1062,6 +1074,9 @@ pos41812:
 //void Code48619()
 void AdjustLengths()
 {
+    unsigned char index;
+    unsigned char loopIndex;
+    int debugX;
 
     // LENGTHEN VOWELS PRECEDING PUNCTUATION
     //
@@ -1072,10 +1087,11 @@ void AdjustLengths()
 
     // loop index
     X = 0;
-    unsigned char index;
+    //unsigned char index;
 
     // iterate through the phoneme list
-    unsigned char loopIndex=0;
+    //unsigned char loopIndex=0;
+    loopIndex=0;
     while(1)
     {
         // get a phoneme
@@ -1361,7 +1377,8 @@ if (debug) printf("PRE\n");
 if (debug) printf("phoneme %d (%c%c) length %d\n", X, signInputTable1[phonemeindex[X]], signInputTable2[phonemeindex[X]], phonemeLength[X]);
 if (debug) printf("phoneme %d (%c%c) length %d\n", X-1, signInputTable1[phonemeindex[X-1]], signInputTable2[phonemeindex[X-1]], phonemeLength[X-1]);
 // X gets overwritten, so hold prior X value for debug statement
-int debugX = X;
+//int debugX = X;
+debugX = X;
             // shorten the prior phoneme length to (length/2 + 1)
             phonemeLength[X] = (phonemeLength[X] >> 1) + 1;
             X = loopIndex;
