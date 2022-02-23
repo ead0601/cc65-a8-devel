@@ -41,7 +41,7 @@ $(OBJDIR):
 TARGET = main.c
 
 build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
-	$(LD) -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
+	$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
 run :
 	$(EMU) -run obj/main.xex

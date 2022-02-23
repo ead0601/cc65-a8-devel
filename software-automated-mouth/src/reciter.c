@@ -4,7 +4,7 @@
 #include "ReciterTabs.h"
 #include "debug.h"
 
-unsigned char A, X, Y;
+extern unsigned char A, X, Y;
 extern int debug;
 
 static unsigned char inputtemp[256];   // secure copy of input tab36096
