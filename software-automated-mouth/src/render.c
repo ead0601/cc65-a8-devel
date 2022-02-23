@@ -75,7 +75,10 @@ void Output8BitAry(int index, unsigned char ary[5])
 }
 void Output8Bit(int index, unsigned char A)
 {
-    unsigned char ary[5] = {A,A,A,A,A};
+    int i;
+    unsigned char ary[5];
+    //unsigned char ary[5] = {A,A,A,A,A};
+    for (i = 0;i<5;i++) ary[i] = A;
     Output8BitAry(index, ary);
 }
 
@@ -188,6 +191,8 @@ void Write(unsigned char p, unsigned char Y, unsigned char value)
 void RenderSample(unsigned char *mem66)
 {
     int tempA;
+    unsigned char phase1;
+
     // current phoneme's index
     mem49 = Y;
 
@@ -274,7 +279,7 @@ pos48296:
     return;
 
 
-    unsigned char phase1;
+    //unsigned char phase1; (moved to top)
 
 pos48315:
 // handle voiced samples here
@@ -367,6 +372,10 @@ void Render()
     unsigned char speedcounter=0; //mem45
     unsigned char mem48=0;
     int i;
+    signed char m53;
+    unsigned char m53abs;
+    int tempA;
+
     if (phonemeIndexOutput[0] == 255) return; //exit if no data
 
     A = 0;
@@ -678,10 +687,16 @@ do
             // ML : Code47503 is division with remainder, and mem50 gets the sign
 
             // calculate change per frame
-            signed char m53 = (signed char)mem53;
+            
+            //signed char m53 = (signed char)mem53;
+            m53 = (signed char) mem53;
+
             mem50 = mem53 & 128;
-            unsigned char m53abs = abs(m53);
+
+            //unsigned char m53abs = abs(m53);
+            m53abs = abs(m53);
             mem51 = m53abs % mem40; //abs((char)m53) % mem40;
+
             mem53 = (unsigned char)((signed char)(m53) / mem40);
 
             // interpolation range
@@ -895,7 +910,8 @@ pos48159:
     // of RenderSample();
 
     //pos48315:
-    int tempA;
+
+    //int tempA;
     phase1 = A ^ 255;
     Y = mem66;
     do
@@ -949,6 +965,7 @@ pos48159:
 
 void AddInflection(unsigned char mem48, unsigned char phase1)
 {
+    int tempA;
     //pos48372:
     //  mem48 = 255;
 //pos48376:
@@ -956,12 +973,13 @@ void AddInflection(unsigned char mem48, unsigned char phase1)
     // store the location of the punctuation
     mem49 = X;
     A = X;
-    int Atemp = A;
+    //int Atemp = A;
+    tempA = A;
 
     // backup 30 frames
     A = A - 30;
     // if index is before buffer, point to start of buffer
-    if (Atemp <= 30) A=0;
+    if (tempA <= 30) A=0;
     X = A;
 
     // FIXME: Explain this fix better, it's not obvious
