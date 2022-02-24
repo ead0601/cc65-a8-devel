@@ -179,6 +179,7 @@ int main(int argc, char **argv)
     // Temp solution until we get line input working
     //
     strcpy(input, "Hello");
+    debug = 1;
 
     //if (argc <= 1)
     //{
