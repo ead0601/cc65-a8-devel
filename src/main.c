@@ -49,7 +49,8 @@ void WriteWav(char* filename, char* buffer, int bufferlength)
 }
 */
 
-void PrintUsage()
+void PrintUsage() {}
+/*
 {
     printf("usage: sam [options] Word1 Word2 ....\n");
     printf("options\n");
@@ -94,9 +95,19 @@ void PrintUsage()
     printf("UN           functi(on) (=AXN)         CH        speech        \n");
     printf("Q            kitt-en (glottal stop)    /H        a(h)ead    \n");
 }
+*/
 
+void OutputSound() {
 
-void OutputSound() {}
+    //int bufferpos = GetBufferLength();
+    //char *buffer = GetBuffer();
+    //int i;
+
+    //for (i=0;i<bufferpos;i++) {
+    //    printf("%x ", buffer[i]);
+    //}
+
+}
 
 /*
 #ifdef USESDL
@@ -165,12 +176,17 @@ int main(int argc, char **argv)
 
     for(i=0; i<256; i++) input[i] = 0;
 
-    if (argc <= 1)
-    {
-        PrintUsage();
-        return 1;
-    }
+    // Temp solution until we get line input working
+    //
+    strcpy(input, "Hello");
 
+    //if (argc <= 1)
+    //{
+    //    PrintUsage();
+    //    return 1;
+    //}
+
+    /*
     i = 1;
     while(i < argc)
     {
@@ -225,6 +241,8 @@ int main(int argc, char **argv)
 
         i++;
     } //while
+    */
+
 
     for(i=0; input[i] != 0; i++)
         input[i] = toupper((int)input[i]);
@@ -255,17 +273,30 @@ int main(int argc, char **argv)
 */
 
     SetInput(input);
-    if (!SAMMain())
-    {
-        PrintUsage();
-        return 1;
-    }
 
-    if (wavfilename != NULL)
-        WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
-    else
-        OutputSound();
+    printf("Enter SAMMain()\n");
 
+    SAMMain();
+
+    //if (!SAMMain())
+    //{
+    //    PrintUsage();
+    //
+    //    return 1;
+    //}
+
+    printf("Exit SAMMain()\n");
+
+    //if (wavfilename != NULL)
+    //    WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
+    //else
+    //    OutputSound();
+
+    //OutputSound();
+
+    //while (1) {
+    //    ;
+    //}
 
     return 0;
 
