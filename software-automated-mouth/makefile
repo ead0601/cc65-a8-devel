@@ -8,6 +8,18 @@
 #atari800 -run ./obj/main.xex
 #
 
+# Check for global flags
+#
+ifndef CC65_HOME
+$(error CC65_HOME is not set)
+endif
+
+ifndef A8_EMULATOR
+$(error A8_EMULATOR is not set)
+endif
+
+# Define variables
+#
 CWD = $(shell pwd)
 
 RM = /usr/bin/rm

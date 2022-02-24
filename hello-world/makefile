@@ -8,6 +8,18 @@
 #atari800 -run ./obj/main.xex
 #
 
+# Check for global flags
+#
+ifndef CC65_HOME
+$(error CC65_HOME is not set)
+endif
+
+ifndef A8_EMULATOR
+$(error A8_EMULATOR is not set)
+endif
+
+# Define variables
+#
 CWD = $(shell pwd)
 
 RM = /usr/bin/rm
@@ -41,7 +53,7 @@ $(OBJDIR):
 TARGET = main.c
 
 build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
-	$(LD) -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
+	$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
 run :
 	$(EMU) -run obj/main.xex
