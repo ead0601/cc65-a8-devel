@@ -193,6 +193,8 @@ void RenderSample(unsigned char *mem66)
     int tempA;
     unsigned char phase1;
 
+    printf("RenderSample() \n");
+
     // current phoneme's index
     mem49 = Y;
 
@@ -796,7 +798,9 @@ do
 if (debug)
 {
     PrintOutput(sampledConsonantFlag, frequency1, frequency2, frequency3, amplitude1, amplitude2, amplitude3, pitches);
+    printf("Reached loop for sound output.\n");
 }
+
 
 // PROCESS THE FRAMES
 //
@@ -860,9 +864,10 @@ if (debug)
 
         // if the frame count is zero, exit the loop
         if(mem48 == 0)  return;
-        speedcounter = speed;
-pos48155:
 
+        speedcounter = speed;
+
+pos48155:
         // decrement the remaining length of the glottal pulse
         mem44--;
 
@@ -904,6 +909,7 @@ pos48159:
         goto pos48159;
     } //while
 
+    // ############################################################ //
 
     // The following code is never reached. It's left over from when
     // the voiced sample code was part of this loop, instead of part
