@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include <conio.h>
+
 #include "render.h"
 #include "RenderTabs.h"
 
@@ -81,11 +83,6 @@ void Output8Bit(int index, unsigned char A)
     for (i = 0;i<5;i++) ary[i] = A;
     Output8BitAry(index, ary);
 }
-
-
-
-
-
 
 
 
@@ -190,10 +187,11 @@ void Write(unsigned char p, unsigned char Y, unsigned char value)
 // Code48227()
 void RenderSample(unsigned char *mem66)
 {
+    int key;
     int tempA;
     unsigned char phase1;
 
-    printf("RenderSample() \n");
+    if (debug) printf("RenderSample() Enter \n");
 
     // current phoneme's index
     mem49 = Y;
@@ -234,6 +232,13 @@ pos48274:
 
     // step through the 8 bits in the sample
     mem56 = 8;
+
+    if (debug) { 
+        printf("RenderSample() A=%x Y=%x\n",A,Y);
+        while ( (key = cgetc()) != 'c') {
+          ;
+        }
+    }
 
     // get the next sample from the table
     // mem47*256 = offset to start of samples
@@ -278,6 +283,9 @@ pos48296:
     // restore values and return
     mem44 = 1;
     Y = mem49;
+
+    if (debug) printf("RenderSample() Exit 1 \n");
+
     return;
 
 
@@ -310,7 +318,6 @@ pos48315:
 
             // left shift and check high bit
             tempA = A;
-            A = A << 1;
             if ((tempA & 128) != 0)
             {
                 // if bit set, output 26
@@ -341,6 +348,9 @@ pos48315:
     mem44 = 1;
     *mem66 = Y;
     Y = mem49;
+
+    if (debug) printf("RenderSample() Exit 1 \n");
+
     return;
 }
 

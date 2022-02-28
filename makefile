@@ -30,7 +30,7 @@ CA = $(CC65_HOME)/bin/ca65
 LD = $(CC65_HOME)/bin/ld65
 EMU = $(A8_EMULATOR)
 
-C_FLAGS = -O --cpu 6502 -t atari
+C_FLAGS = -Cl -O --cpu 6502 -t atari
 S_FLAGS = -t atari
 
 C_SRC = $(shell ls src/*.c 2>/dev/null)
