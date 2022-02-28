@@ -1,12 +1,14 @@
 #include<stdio.h>
 
+#include <conio.h>
+
 extern unsigned char signInputTable1[];
 extern unsigned char signInputTable2[];
 
 void PrintPhonemes(unsigned char *phonemeindex, unsigned char *phonemeLength, unsigned char *stress)
 {
     int i = 0;
-    printf("===========================================\n");
+    printf("========================================\n");
 
     printf("Internal Phoneme presentation:\n\n");
     printf(" idx    phoneme  length  stress\n");
@@ -29,7 +31,7 @@ void PrintPhonemes(unsigned char *phonemeindex, unsigned char *phonemeLength, un
         }
         i++;
     }
-    printf("===========================================\n");
+    printf("========================================\n");
     printf("\n");
 }
 
@@ -44,18 +46,24 @@ void PrintOutput(
     unsigned char *p)
 {
     int i;
+    int key;
 
-    printf("===========================================\n");
+
+    printf("========================================\n");
     printf("Final data for speech output:\n\n");
     i = 0;
-    printf(" flags ampl1 freq1 ampl2 freq2 ampl3 freq3 pitch\n");
-    printf("------------------------------------------------\n");
+    //printf(" flags ampl1 freq1 ampl2 freq2 ampl3 freq3 pitch\n");
+    printf("flgs   a1   f1   a2   f2   a3   f3 pitch\n");
+    printf("----------------------------------------\n");
     while(i < 255)
     {
-        printf("%5i %5i %5i %5i %5i %5i %5i %5i\n", flag[i], a1[i], f1[i], a2[i], f2[i], a3[i], f3[i], p[i]);
+        printf("%4i %4i %4i %4i %4i %4i %4i %4i\n", flag[i], a1[i], f1[i], a2[i], f2[i], a3[i], f3[i], p[i]);
         i++;
+        //while ((key = cgetc()) != 'c')  {
+        //    ;
+        //}
     }
-    printf("===========================================\n");
+    printf("========================================\n");
 
 }
 
