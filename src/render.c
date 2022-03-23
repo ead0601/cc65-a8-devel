@@ -2,7 +2,12 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <conio.h>
+#ifdef GCC
+#include <curses.h>
+#else
+#include <conio.h> 
+#endif 
+
 
 #include "render.h"
 #include "RenderTabs.h"
@@ -69,11 +74,15 @@ static unsigned oldtimetableindex = 0;
 void Output8BitAry(int index, unsigned char ary[5])
 {
     int k;
+    int out_index;
     bufferpos += timetable[oldtimetableindex][index];
     oldtimetableindex = index;
     // write a little bit in advance
-    for(k=0; k<5; k++)
-        buffer[bufferpos/50 + k] = ary[k];
+    for(k=0; k<5; k++) {
+        out_index = bufferpos/50 + k; 
+        buffer[out_index] = ary[k];
+    }
+    if (debug) printf("out_index=%x\n",out_index);
 }
 void Output8Bit(int index, unsigned char A)
 {
@@ -189,6 +198,7 @@ void RenderSample(unsigned char *mem66)
 {
     int key;
     int tempA;
+    int in_index;
     unsigned char phase1;
 
     if (debug) printf("RenderSample() Enter \n");
@@ -235,14 +245,26 @@ pos48274:
 
     if (debug) { 
         printf("RenderSample() A=%x Y=%x\n",A,Y);
-        while ( (key = cgetc()) != 'c') {
-          ;
-        }
+        //printf("sampleTable = %x\n", sampleTable);
+        //printf("mem47*256+Y = %d\n", mem47*256+Y);
+        //while ( (key = cgetc()) != 'c') {
+        //  ;
+        //}
     }
+
+    //printf("here\n");
 
     // get the next sample from the table
     // mem47*256 = offset to start of samples
-    A = sampleTable[mem47*256+Y];
+    in_index = mem47*256+Y;
+    A = sampleTable[in_index];
+
+    //if (debug) { 
+    //    printf("there\n");
+    //} 
+
+    printf("in_index = %x\n",in_index);
+
 pos48280:
 
     // left shift to get the high bit
@@ -293,6 +315,8 @@ pos48296:
 
 pos48315:
 // handle voiced samples here
+
+    if (debug) printf("*****In handle voiced sample. \n");
 
    // number of samples?
     phase1 = A ^ 255;
