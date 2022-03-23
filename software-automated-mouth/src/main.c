@@ -12,8 +12,7 @@
 #include <SDL_audio.h>
 #endif
 
-void WriteWav(char* filename, char* buffer, int bufferlength) {}
-/*
+#ifdef GCC
 void WriteWav(char* filename, char* buffer, int bufferlength)
 {
     FILE *file = fopen(filename, "wb");
@@ -47,7 +46,9 @@ void WriteWav(char* filename, char* buffer, int bufferlength)
 
     fclose(file);
 }
-*/
+#else
+void WriteWav(char* filename, char* buffer, int bufferlength) {}
+#endif
 
 void PrintUsage() {}
 /*
@@ -171,7 +172,8 @@ int main(int argc, char **argv)
     static int i;
     static int phonetic = 0;
 
-    static char* wavfilename = NULL;
+    //static char* wavfilename = NULL;
+    static char* wavfilename = "out.wav";
     static char input[256];
 
     for(i=0; i<256; i++) input[i] = 0;
@@ -288,8 +290,9 @@ int main(int argc, char **argv)
 
     printf("Exit SAMMain()\n");
 
-    //if (wavfilename != NULL)
-    //    WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
+    if (wavfilename != NULL)
+        WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
+    
     //else
     //    OutputSound();
 

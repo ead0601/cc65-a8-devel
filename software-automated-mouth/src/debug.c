@@ -1,6 +1,10 @@
 #include<stdio.h>
 
-#include <conio.h>
+#ifdef GCC
+#include <curses.h>
+#else
+#include <conio.h> 
+#endif 
 
 extern unsigned char signInputTable1[];
 extern unsigned char signInputTable2[];

@@ -25,10 +25,14 @@ CWD = $(shell pwd)
 RM = /usr/bin/rm
 MD = /usr/bin/mkdir
 
+GC = /usr/bin/gcc
+
 CC = $(CC65_HOME)/bin/cc65
 CA = $(CC65_HOME)/bin/ca65
 LD = $(CC65_HOME)/bin/ld65
+
 EMU = $(A8_EMULATOR)
+APLAY = /usr/bin/aplay
 
 C_FLAGS = -Cl -O --cpu 6502 -t atari
 S_FLAGS = -t atari
@@ -41,12 +45,10 @@ S_OBJS  = $(addprefix obj/, $(notdir $(S_SRC:.s=.o)))
 
 OBJDIR  = ./obj
 
-
 # Make obj directory
 #
 $(OBJDIR):
 	mkdir $@ 2>/dev/null || true
-
 
 # Build Target
 #
@@ -55,10 +57,17 @@ TARGET = main.c
 build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
 	$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
+#$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
+
 run :
 	$(EMU) -run obj/main.xex
 
 all : clean build run
+
+gcc : clean
+	$(GC) -DGCC ./src/*.c -o ./obj/a.out
+	./obj/a.out
+	$(APLAY) ./out.wav
 
 # Display variables
 #
@@ -87,3 +96,5 @@ clean : $(OBJDIR)
 # Remove builtin rules
 #
 .SUFFIXES:
+
+.SECONDARY:
