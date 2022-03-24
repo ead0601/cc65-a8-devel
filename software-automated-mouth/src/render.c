@@ -73,6 +73,8 @@ int timetable[5][5] =
 static unsigned oldtimetableindex = 0;
 void Output8BitAry(int index, unsigned char ary[5])
 {
+    // Use an output buffer for GCC
+    #ifdef GCC
     int k;
     int out_index;
     bufferpos += timetable[oldtimetableindex][index];
@@ -83,6 +85,7 @@ void Output8BitAry(int index, unsigned char ary[5])
         buffer[out_index] = ary[k];
     }
     if (debug) printf("out_index=%x\n",out_index);
+    #endif
 }
 void Output8Bit(int index, unsigned char A)
 {
