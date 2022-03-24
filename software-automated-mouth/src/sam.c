@@ -5,6 +5,7 @@
 #include "sam.h"
 #include "render.h"
 #include "SamTabs.h"
+#include <atari.h>
 
 char input[256]; //tab39445
 //standard sam sound
@@ -96,6 +97,8 @@ void Init()
     // TODO, check for free the memory, 10 seconds of output should be more than enough
     buffer = malloc(22050*10);
     #else
+    POKEY_WRITE.audctl = 0x0;
+    POKEY_WRITE.audc1  = 0x0 | AUDC_VOLUME_ONLY; 
     // NOT USED
     buffer = malloc(1024);
     #endif

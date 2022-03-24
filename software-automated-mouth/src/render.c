@@ -85,6 +85,13 @@ void Output8BitAry(int index, unsigned char ary[5])
         buffer[out_index] = ary[k];
     }
     if (debug) printf("out_index=%x\n",out_index);
+    #else
+    int k;
+    // Drive pokey output
+    for(k=0; k<5; k++) {
+        POKEY_WRITE.audc1  == ary[k] | AUDC_VOLUME_ONLY;
+        //printf("ary[%d]=%x\n",k,ary[k]);
+    }
     #endif
 }
 void Output8Bit(int index, unsigned char A)
@@ -266,7 +273,7 @@ pos48274:
     //    printf("there\n");
     //} 
 
-    printf("in_index = %x\n",in_index);
+    if (debug) printf("in_index = %x\n",in_index);
 
 pos48280:
 
