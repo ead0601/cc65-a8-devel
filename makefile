@@ -62,7 +62,7 @@ build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
 run :
 	$(EMU) -run obj/main.xex
 
-all : clean build run
+atari : clean build run
 
 gcc : clean
 	$(GC) -DGCC ./src/*.c -o ./obj/a.out

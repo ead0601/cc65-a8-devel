@@ -181,7 +181,7 @@ int main(int argc, char **argv)
     // Temp solution until we get line input working
     //
     strcpy(input, "Hello");
-    debug = 1;
+    //debug = 1;
 
     //if (argc <= 1)
     //{
@@ -298,9 +298,9 @@ int main(int argc, char **argv)
 
     //OutputSound();
 
-    //while (1) {
-    //    ;
-    //}
+    while (1) {
+        ;
+    }
 
     return 0;
 
