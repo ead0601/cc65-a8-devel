@@ -91,8 +91,15 @@ void Init()
     SetMouthThroat( mouth, throat);
 
     bufferpos = 0;
+
+    #ifdef GCC
     // TODO, check for free the memory, 10 seconds of output should be more than enough
     buffer = malloc(22050*10);
+    #else
+    // NOT USED
+    buffer = malloc(1024);
+    #endif
+
 
     /*
     freq2data = &mem[45136];
