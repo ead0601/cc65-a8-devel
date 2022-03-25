@@ -34,7 +34,7 @@ LD = $(CC65_HOME)/bin/ld65
 EMU = $(A8_EMULATOR)
 APLAY = /usr/bin/aplay
 
-C_FLAGS = -Cl -O --cpu 6502 -t atari
+C_FLAGS = -T --debug-info --register-vars --static-locals -Cl -Oi --cpu 6502 -t atari
 S_FLAGS = -t atari
 
 C_SRC = $(shell ls src/*.c 2>/dev/null)
@@ -55,7 +55,7 @@ $(OBJDIR):
 TARGET = main.c
 
 build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
-	$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
+	$(LD)  -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
 #$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
 
@@ -82,10 +82,10 @@ vars :
 # Build files
 #
 obj/%.s : src/%.c
-	$(CC) $(C_FLAGS) -o $@ $<
+	$(CC) -DPOKEY $(C_FLAGS) -o $@ $<
 
 obj/%.o : obj/%.s
-	$(CA) $(S_FLAGS) -o $@ $<
+	$(CA) -DPOKEY $(S_FLAGS) -o $@ $<
 
 # Clean
 #

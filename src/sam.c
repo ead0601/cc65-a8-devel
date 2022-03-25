@@ -5,7 +5,11 @@
 #include "sam.h"
 #include "render.h"
 #include "SamTabs.h"
-#include <atari.h>
+
+#ifdef GCC
+#else
+#include <atari.h> 
+#endif 
 
 char input[256]; //tab39445
 //standard sam sound
@@ -85,6 +89,9 @@ void SetMouthThroat(unsigned char mouth, unsigned char throat);
 // 173=amplitude2
 // 174=amplitude3
 
+#ifdef POKEY
+unsigned char state_nmien, state_irqen, state_dmactl;   
+#endif 
 
 void Init()
 {
@@ -94,15 +101,30 @@ void Init()
     bufferpos = 0;
 
     #ifdef GCC
-    // TODO, check for free the memory, 10 seconds of output should be more than enough
-    buffer = malloc(22050*10);
+        // TODO, check for free the memory, 10 seconds of output should be more than enough
+        buffer = malloc(22050*10);
     #else
-    POKEY_WRITE.audctl = 0x0;
-    POKEY_WRITE.audc1  = 0x0 | AUDC_VOLUME_ONLY; 
-    // NOT USED
-    buffer = malloc(1024);
-    #endif
+        // Init control regs
+        //
+        #ifdef POKEY
+            POKEY_WRITE.audctl = 0x0;
+            POKEY_WRITE.skctl = 0x3;
+            POKEY_WRITE.audc1  = 0x0 | AUDC_VOLUME_ONLY; 
 
+            // Kill interrupts, otherwise timing is affected.
+            //
+            state_nmien  = ANTIC.nmien;        
+            state_irqen  = POKEY_WRITE.irqen;  
+            state_dmactl = ANTIC.dmactl;    
+
+            ANTIC.nmien = 0x0;        // kill VBIs
+            POKEY_WRITE.irqen = 0x0;  // kill irqs
+            ANTIC.dmactl = 0x0;       // kill dma
+        #endif
+
+        // NOT USED
+        buffer = malloc(1024);
+    #endif
 
     /*
     freq2data = &mem[45136];
@@ -143,6 +165,14 @@ void Init()
 
 }
 
+void InitClose() {
+
+    #ifdef POKEY
+        ANTIC.nmien = state_nmien;
+        POKEY_WRITE.irqen = state_irqen;
+        ANTIC.dmactl = state_dmactl;
+    #endif
+}
 
 //int Code39771()
 int SAMMain()
@@ -179,6 +209,8 @@ int SAMMain()
     }
 
     PrepareOutput();
+
+    InitClose();
 
     return 1;
 }

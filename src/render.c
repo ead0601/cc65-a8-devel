@@ -70,7 +70,10 @@ int timetable[5][5] =
     {199, 0, 0, 54, 54}
 };
 
+
 static unsigned oldtimetableindex = 0;
+
+#pragma inline Output8BitAry
 void Output8BitAry(int index, unsigned char ary[5])
 {
     // Use an output buffer for GCC
@@ -82,18 +85,31 @@ void Output8BitAry(int index, unsigned char ary[5])
     // write a little bit in advance
     for(k=0; k<5; k++) {
         out_index = bufferpos/50 + k; 
-        buffer[out_index] = ary[k];
+
+        // 8 bit sample
+        //buffer[out_index] = (ary[k]>>4);
+
+        // 4 bit sample like pokey volume out mode
+        buffer[out_index] = (ary[k]>>4);
+
+        //printf("ary[%d]=%x\n",k,ary[k]);
     }
     if (debug) printf("out_index=%x\n",out_index);
     #else
     int k;
-    // Drive pokey output
-    for(k=0; k<5; k++) {
-        POKEY_WRITE.audc1  == ary[k] | AUDC_VOLUME_ONLY;
-        //printf("ary[%d]=%x\n",k,ary[k]);
-    }
+
+        #ifdef POKEY
+        // Drive pokey output
+        for(k=0; k<5; k++) {
+            POKEY_WRITE.audc1  = (ary[k]>>4) | AUDC_VOLUME_ONLY;
+            //printf("ary[%d]=%x\n",k,ary[k]);
+        }
+        #endif
+        
     #endif
 }
+
+#pragma inline Output8Bit
 void Output8Bit(int index, unsigned char A)
 {
     int i;
