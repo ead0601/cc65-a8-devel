@@ -38,6 +38,10 @@ while (1) {
         dur = duration[i];
 
         POKEY_WRITE.audc1 = vol;
+        //POKEY_WRITE.audc2 = vol;
+        //POKEY_WRITE.audc3 = vol;
+        //POKEY_WRITE.audc4 = vol;
+
 
         // Wait for tempo
         for (j=0;j<tempo;j++) {
@@ -48,6 +52,9 @@ while (1) {
         for (j=0;j<dur;j++) {
             ;
         }
+
+        if (tempo > 1000) tempo = 1;
+        else tempo=tempo+1;
 
     }
 }
