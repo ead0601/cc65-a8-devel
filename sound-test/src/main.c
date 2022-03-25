@@ -1,7 +1,34 @@
 #include <stdio.h>
 #include <atari.h>
 
-unsigned char tempo = 1;
+
+// POKEY - Volume Only Mode 
+
+// 15-I            ------
+// 14-I         ---      ---
+// 13-I       --            --
+// 12-I     --                --
+// 11-I   --                    --
+// 10-I  -                        -
+//  9-I -                          -
+//  8=I-----------------------------------------------------------
+//  7-I                              -                          -
+//  6-I                               -                        -
+//  5-I                                --                    --
+//  4-I                                  --                --
+//  3-I                                    --            --
+//  2-I                                      ---      ---
+//  1-I                                         ------
+
+// Above - 58 total samples
+
+// 1 KHz tone
+//
+// 1.79e6 / 1kHz / 58 total samples = 30.8 cycles
+
+// We need 30.8 cycles per sample for a 1KHz tone
+
+unsigned char tempo = 30;  // (ignoring cycles due to code)
 
 int note_count = 28;
 unsigned char duration[28] = {1,1,1,2,2,2,3,6,
@@ -21,10 +48,12 @@ int main (void)
  unsigned char vol, dur;
 
 // Init control regs
+//
 POKEY_WRITE.audctl = 0x0;
 POKEY_WRITE.skctl = 0x3;
 
-// Kill interrupts
+// Kill interrupts, otherwise timing is affected.
+//
 ANTIC.nmien = 0x0;        // kill VBIs
 POKEY_WRITE.irqen = 0x0;  // kill irqs
 ANTIC.dmactl = 0x0;       // kill dma
@@ -48,13 +77,15 @@ while (1) {
             ;
         }
 
-        // Wait for duration
+        // Wait for sample duration
         for (j=0;j<dur;j++) {
             ;
         }
 
-        if (tempo > 1000) tempo = 1;
-        else tempo=tempo+1;
+        // Modulate frequency
+        //
+        //if (tempo > 1000) tempo = 1;
+        //else tempo=tempo+1;
 
     }
 }
