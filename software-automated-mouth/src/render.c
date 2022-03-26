@@ -6,6 +6,7 @@
 #include <curses.h>
 #else
 #include <conio.h> 
+#include <atari.h>
 #endif 
 
 
@@ -76,6 +77,8 @@ static unsigned oldtimetableindex = 0;
 #pragma inline Output8BitAry
 void Output8BitAry(int index, unsigned char ary[5])
 {
+    unsigned char val;
+
     // Use an output buffer for GCC
     #ifdef GCC
     int k;
@@ -87,10 +90,11 @@ void Output8BitAry(int index, unsigned char ary[5])
         out_index = bufferpos/50 + k; 
 
         // 8 bit sample
-        //buffer[out_index] = (ary[k]>>4);
+        //buffer[out_index] = ary[k];
 
         // 4 bit sample like pokey volume out mode
-        buffer[out_index] = (ary[k]>>4);
+        //buffer[out_index] = (ary[k]>>4);
+        buffer[out_index] = (ary[k] & 0xF0);
 
         //printf("ary[%d]=%x\n",k,ary[k]);
     }
@@ -101,8 +105,9 @@ void Output8BitAry(int index, unsigned char ary[5])
         #ifdef POKEY
         // Drive pokey output
         for(k=0; k<5; k++) {
-            POKEY_WRITE.audc1  = (ary[k]>>4) | AUDC_VOLUME_ONLY;
-            //printf("ary[%d]=%x\n",k,ary[k]);
+            val = (ary[k]>>4) | AUDC_VOLUME_ONLY;
+            POKEY_WRITE.audc1  = val;
+            //printf("ary[%d]=%x\n",k,val);
         }
         #endif
         
