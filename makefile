@@ -27,21 +27,15 @@ MD = /usr/bin/mkdir
 
 GC = /usr/bin/gcc
 
-CC = $(CC65_HOME)/bin/cc65
-CA = $(CC65_HOME)/bin/ca65
-LD = $(CC65_HOME)/bin/ld65
+CL = $(CC65_HOME)/bin/cl65
 
 EMU = $(A8_EMULATOR)
 APLAY = /usr/bin/aplay
 
-C_FLAGS = -T --debug-info --register-vars --static-locals -Cl -Oi --cpu 6502 -t atari
-S_FLAGS = -t atari
+C_FLAGS = -g -r -DPOKEY -m ./obj/map.txt -l ./obj/listing.txt -T -Cl -Osir --cpu 6502 -t atari
 
 C_SRC = $(shell ls src/*.c 2>/dev/null)
 S_SRC = $(shell ls src/*.s 2>/dev/null)
-
-C_OBJS  = $(addprefix obj/, $(notdir $(C_SRC:.c=.o)))
-S_OBJS  = $(addprefix obj/, $(notdir $(S_SRC:.s=.o)))
 
 OBJDIR  = ./obj
 
@@ -54,10 +48,9 @@ $(OBJDIR):
 #
 TARGET = main.c
 
-build : $(OBJDIR) $(C_OBJS) $(S_OBJS)
-	$(LD)  -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
-
-#$(LD) -m ./obj/map.txt -C ./atari.cfg -o ./obj/main.xex $(C_OBJS) $(S_OBJS) atari.lib
+# -I $(CC65_HOME)/include -L $(CC65_HOME)/lib 
+build : clean $(OBJDIR) $(C_SRC) $(S_SRC)
+	$(CL) $(C_FLAGS) -C ./atari.cfg -o ./obj/main.xex $(C_SRC) $(S_SRC) atari.lib
 
 run :
 	$(EMU) -run obj/main.xex
@@ -79,19 +72,10 @@ vars :
 	@ echo C_OBJS = $(C_OBJS)
 	@ echo S_OBJS = $(S_OBJS)
 
-# Build files
-#
-obj/%.s : src/%.c
-	$(CC) -DPOKEY $(C_FLAGS) -o $@ $<
-
-obj/%.o : obj/%.s
-	$(CA) -DPOKEY $(S_FLAGS) -o $@ $<
-
 # Clean
 #
 clean : $(OBJDIR)
 	$(RM) -f obj/*.*
-
 
 # Remove builtin rules
 #

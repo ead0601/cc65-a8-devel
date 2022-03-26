@@ -277,7 +277,7 @@ int main(int argc, char **argv)
 
     SetInput(input);
 
-    printf("Enter SAMMain()\n");
+    printf("\nEnter SAMMain()\n");
 
     SAMMain();
 
@@ -298,9 +298,11 @@ int main(int argc, char **argv)
 
     //OutputSound();
 
+    #ifndef GCC
     while (1) {
         ;
     }
+    #endif
 
     return 0;
 
