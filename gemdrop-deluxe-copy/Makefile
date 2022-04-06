@@ -17,9 +17,9 @@ CC65_LIB=${CC65_HOME}/lib/
 CC65_CFG=${CC65_HOME}/cfg/
 
 # THESE MAY NEED TO BE UPDATED or INSTALLED
-FRANNY=`/usr/bin/franny`
-XXD=`/usr/bin/xxd` 
-XASM=`/usr/bin/xasm`
+FRANNY=/usr/bin/franny
+XXD=/usr/bin/xxd
+XASM=/usr/bin/xasm
 
 CC65_FLAGS=-Osir --add-source
 
