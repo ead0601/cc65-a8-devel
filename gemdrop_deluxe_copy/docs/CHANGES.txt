@@ -1,0 +1,130 @@
+CHANGES.txt for Gem Drop Deluxe
+
+May 13, 2021
+
+ * Added "[esc] to exit" kind of message to Help screen.
+
+ * Visual feedback (background color change) when
+   a bomb or clock piece are used.
+
+ * Showing (in-game during gameplay, and on the title/menu,
+   when your game ends) when you have achieved a high score.
+
+ * Showing (in-game during gameplay) when you have
+   achieved the highest level seen so far.
+
+ * Borders on the edge of the gameplay area.
+
+ * Joystick control to select level on title/menu.
+
+ * Sound effects when changing settings on title/menu.
+
+ * Tweaks to custom title/help font.
+
+ * Compiling with "-Osir" optimization flags to cc65
+   (noticably faster execution in some places, and
+   smaller binaries!)
+
+ * Reorganized source/docs/objects/etc.
+
+ * Replaced many magic numbers with labels/#defines/etc.
+
+ * Replaced most POKE()'s with array references
+   (e.g., `POKE(DL + n, x);` with `DL[n] = x;`)
+
+RELEASE: 2021_03_21_beta
+
+March 21, 2021
+ * Now building an ATR disk image, utilizing uDOS
+   (by Dietrich aka Lockpick @ ABBUC forums).
+   + Game state (high score, max level reached)
+     saved back to the disk.
+
+ * Title screen improvements:
+   + Colorful, animated credits.
+   + Credits more than just Bill, when applicable.
+   + Better layout.
+   + Color behind menu buttons.
+   + Friendlier rendition of version #.
+
+ * Help screen (press [H] from title screen)
+
+ * Custom font on title screen options section
+   and the help screen. (Based on Ubuntu Mono)
+
+ * title-to-font tool now doing double-duty of
+   converting a 256x32 pixel bitmap into a
+   128 character font
+
+RELEASE: 2021_03_14_beta
+
+March 14, 2021
+ * Fancy title screen, with copyright, last score,
+   high score, and options menu all displayed.
+
+ * Updated code to build against stock cc65
+   (V2.19) rather than requiring my extended-headers.
+   (Much of that work was rolled into cc65 upstream,
+   or is now moot thanks to alternate solutions.)
+
+ * Reduced space used by fonts; no longer trying to
+   merge two versions of game font for non-flicker mode;
+   just using one of the existing fonts looks better.
+
+ * Rewrote Super IRG mode VBI and title screen DLI in
+   inline assembly, to address stability problems.
+
+ * Disable "attract" mode on menu screen, upon any
+   console key input.  Keep it disabled during game.
+
+ * Ran source files through:
+   "indent -nbfda -npcs -npsl -bli0"
+
+ * Grabbing version # from Makefile and adding to
+   README.txt during release process.
+
+RELEASE: 2015_10_02_alpha
+
+October 2, 2015
+ * Adding support for non-flickering mode
+
+RELEASE: 2015_08_15_alpha_1
+
+August 15, 2015
+ * Added VERSION definition to Makefile
+ * Added brief name/version/credits splash screen
+ * Created 'release' & 'release-clean' targets, for
+   building a release .zip (containing .xex and some .txt files)
+
+August 12, 2015
+ * Increased max-kills to 110 (# of possible blocks on
+   the screen; not that you'd EVER get a full screen of
+   the same block)
+ * Font header file generation part of build process.
+ * Using #defines for piece picking & matching.
+ * Using #defines for keycodes.
+ * Using #define'd bits for SDMCTL settings.
+ * Fixed likely bug in original game's high score tracking
+   (affecting scores over 10,000 points).
+ * Using #define'd pointer to OS ROM font (during "UH OH" sequence)
+ * Erase pieces right after throwing them, so they don't stay
+   next to your character while the cascade effect takes place.
+ * Added missing loop pausing routines ("honk" sound/flash,
+   "game over" brick wall drop, Level 15 "UH OH" sequence).
+ * Added a bunch of comments.
+ * New name on title screen ("GEM DROP Dle"; good enough ;-) )
+
+July 18, 2015
+ * Requiring cc65_atari8bit_extended_headers as an
+   installed set of .h files in incldue path
+   (vs. hack of using a symlink to them)
+
+July 17, 2015
+ * Initial github import; ported mostly to C for cc65
+   + Converted FNT files to a #include'able gemdrop-font.h.
+   + Converted ACT source files into a single gemdrop.c file.
+
+September 1997
+ * Initial release
+   Written in Action!
+
