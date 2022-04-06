@@ -105,7 +105,7 @@ void Output8BitAry(int index, unsigned char ary[5])
         #ifdef POKEY
         // Drive pokey output
         for(k=0; k<5; k++) {
-            val = (ary[k]>>4) | AUDC_VOLUME_ONLY;
+            val = ((ary[k]>>4) & 0x0F) | 0x10;  //AUDC_VOLUME_ONLY;
             POKEY_WRITE.audc1  = val;
             //printf("ary[%d]=%x\n",k,val);
         }
@@ -919,8 +919,11 @@ if (debug)
             }
             // output the accumulated value
             Output8BitAry(0, ary);
+
+            speedcounter = 1;
             speedcounter--;
             if (speedcounter != 0) goto pos48155;
+
             Y++; //go to next amplitude
 
             // decrement the frame count
