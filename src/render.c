@@ -90,11 +90,11 @@ void Output8BitAry(int index, unsigned char ary[5])
         out_index = bufferpos/50 + k; 
 
         // 8 bit sample
-        //buffer[out_index] = ary[k];
+        buffer[out_index] = ary[k];
 
         // 4 bit sample like pokey volume out mode
         //buffer[out_index] = (ary[k]>>4);
-        buffer[out_index] = (ary[k] & 0xF0);
+        //buffer[out_index] = (ary[k] & 0xF0);
 
         //printf("ary[%d]=%x\n",k,ary[k]);
     }
@@ -920,7 +920,7 @@ if (debug)
             // output the accumulated value
             Output8BitAry(0, ary);
 
-            speedcounter = 1;
+            // speedcounter = 1;
             speedcounter--;
             if (speedcounter != 0) goto pos48155;
 
