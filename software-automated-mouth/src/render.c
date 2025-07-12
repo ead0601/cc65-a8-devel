@@ -57,6 +57,7 @@ unsigned char trans(unsigned char mem39212, unsigned char mem39213);
 
 // contains the final soundbuffer
 extern int bufferpos;
+extern uint buffer_index;
 extern char *buffer;
 
 
@@ -74,6 +75,36 @@ int timetable[5][5] =
 
 static unsigned oldtimetableindex = 0;
 
+/*
+#pragma inline Output8BitAry
+void Output8BitAry(int index, unsigned char ary[5]) {
+    static unsigned oldtimetableindex = 0;
+
+    int step = timetable[oldtimetableindex][index];  // duration in ticks
+    oldtimetableindex = index;
+
+    int num_samples = step / 50;
+
+    printf("num_samples = %d \n", num_samples);
+    //if (num_samples > 5) num_samples = 5;
+    //if (num_samples < 1) num_samples = 1;
+
+    uint out_index = bufferpos / 50;
+
+    for (int i = 0; i < num_samples; i++) {
+
+        buffer[out_index + i] = ary[i];
+
+        // Or for real-time playback:
+        // pokey_output(ary[i]);
+        printf("buffer[%d] = %d \n",out_index+i, buffer[out_index+i]);
+    }
+
+    bufferpos += step;
+}
+*/
+
+
 #pragma inline Output8BitAry
 void Output8BitAry(int index, unsigned char ary[5])
 {
@@ -83,20 +114,33 @@ void Output8BitAry(int index, unsigned char ary[5])
     #ifdef GCC
     int k;
     int out_index;
-    bufferpos += timetable[oldtimetableindex][index];
+
+    //bufferpos += timetable[oldtimetableindex][index];
+    //oldtimetableindex = index;
+
+    int step = timetable[oldtimetableindex][index];  // duration in ticks
     oldtimetableindex = index;
+
+    bufferpos += step;
+    printf("bufferpos = %d\n",bufferpos);
+
+    int num_samples = step / 50;
+
+    printf("num_samples = %d \n", num_samples);
+    if (num_samples > 5) num_samples = 5;
+    if (num_samples < 1) num_samples = 1;
+
     // write a little bit in advance
-    for(k=0; k<5; k++) {
-        out_index = bufferpos/50 + k; 
+    //for(k=0; k<5; k++) {
+    for(k=0; k<num_samples; k++) {
+        //out_index = bufferpos/50 + k; 
 
         // 8 bit sample
-        buffer[out_index] = ary[k];
+        //buffer[out_index] = ary[k];
+        buffer[buffer_index] = ary[k];
+        buffer_index++;
 
-        // 4 bit sample like pokey volume out mode
-        //buffer[out_index] = (ary[k]>>4);
-        //buffer[out_index] = (ary[k] & 0xF0);
-
-        //printf("ary[%d]=%x\n",k,ary[k]);
+        printf("buffer[%d] = %d\n",out_index, buffer[out_index]);
     }
     if (debug) printf("out_index=%x\n",out_index);
     #else
@@ -105,14 +149,25 @@ void Output8BitAry(int index, unsigned char ary[5])
         #ifdef POKEY
         // Drive pokey output
         for(k=0; k<5; k++) {
-            val = ((ary[k]>>4) & 0x0F) | 0x10;  //AUDC_VOLUME_ONLY;
+            // ORIG
+            val = ((ary[k]>>4) & 0x0F) | 0xA0;  //AUDC_VOLUME_ONLY;
             POKEY_WRITE.audc1  = val;
-            //printf("ary[%d]=%x\n",k,val);
+            printf("ary[%d]=%x\n",k,val);
+
+	        // TEST
+            //dac_val = ((ary[k]>>4) & 0x0F) | 0x10;  //AUDC_VOLUME_ONLY;
+            //unsigned char dac_val = ((ary[k] >> 4) & 0x0F) | 0x10; // 4-bit DAC mode
+            //POKEY_WRITE.audc1 = dac_val;
+            //POKEY_WRITE.audctl = 0x00;
+            //POKEY_WRITE.audf1 = 0x00;
+            //delay_cycles(5); // crude but helpful for testing
+            //printf("%d\n", dac_val);  // print DAC samples
         }
         #endif
         
     #endif
 }
+
 
 #pragma inline Output8Bit
 void Output8Bit(int index, unsigned char A)

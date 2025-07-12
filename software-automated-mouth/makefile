@@ -53,7 +53,7 @@ build : clean $(OBJDIR) $(C_SRC) $(S_SRC)
 	$(CL) $(C_FLAGS) -C ./atari.cfg -o ./obj/main.xex $(C_SRC) $(S_SRC) atari.lib
 
 run :
-	$(EMU) -run obj/main.xex
+	$(EMU) -stretch 3 -run obj/main.xex
 
 atari : clean build run
 

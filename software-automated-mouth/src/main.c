@@ -15,6 +15,8 @@
 #ifdef GCC
 void WriteWav(char* filename, char* buffer, int bufferlength)
 {
+    printf("file=%s : bufferlength=%d \n",filename, bufferlength);
+
     FILE *file = fopen(filename, "wb");
     if (file == NULL) return;
     //RIFF header
@@ -45,6 +47,9 @@ void WriteWav(char* filename, char* buffer, int bufferlength)
     fwrite(buffer, bufferlength, 1, file);
 
     fclose(file);
+
+    for (int i=0; i<bufferlength; i++)
+        printf("data[%d]=%d\n", i, buffer[i]);
 }
 #else
 void WriteWav(char* filename, char* buffer, int bufferlength) {}
@@ -291,8 +296,9 @@ int main(int argc, char **argv)
     printf("Exit SAMMain()\n");
 
     if (wavfilename != NULL)
-        WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
-    
+        //WriteWav(wavfilename, GetBuffer(), GetBufferLength()/50);
+        WriteWav(wavfilename, GetBuffer(), GetBufferIndexLength());
+
     //else
     //    OutputSound();
 

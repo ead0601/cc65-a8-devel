@@ -44,10 +44,14 @@ unsigned char phonemeLengthOutput[60]; //tab47416
 
 
 
-
+// ORIG
 // contains the final soundbuffer
 int bufferpos=0;
+int buffer_index=0;
 char *buffer = NULL;
+
+// TEST
+//char buffer[1024] = {0};  // Forces it to go to DATA (initialized)
 
 
 void SetInput(char *_input)
@@ -66,7 +70,9 @@ void SetMouth(unsigned char _mouth) {mouth = _mouth;}
 void SetThroat(unsigned char _throat) {throat = _throat;}
 void EnableSingmode() {singmode = 1;}
 char* GetBuffer(){return buffer;}
+
 int GetBufferLength(){return bufferpos;}
+int GetBufferIndexLength(){return buffer_index;}
 
 void Init();
 int Parser1();
@@ -99,6 +105,7 @@ void Init()
     SetMouthThroat( mouth, throat);
 
     bufferpos = 0;
+    buffer_index = 0;
 
     #ifdef GCC
         // TODO, check for free the memory, 10 seconds of output should be more than enough
